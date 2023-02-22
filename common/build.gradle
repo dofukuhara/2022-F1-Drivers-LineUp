@@ -1,20 +1,18 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    namespace 'com.fukuhara.douglas.f1driverslineup'
+    namespace 'com.fukuhara.douglas.lib.common'
     compileSdk compile_sdk_version
 
     defaultConfig {
-        applicationId "com.fukuhara.douglas.f1driverslineup"
         minSdk min_sdk_version
         targetSdk target_sdk_version
-        versionCode app_version_code
-        versionName app_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -33,22 +31,13 @@ android {
 }
 
 dependencies {
-    // Custom modules
-    implementation project(":common")
-
-    implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
-    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
-    implementation "com.google.android.material:material:$google_material_version"
-    implementation "androidx.constraintlayout:constraintlayout:$androidx_contraintlayout_version"
 
     // DI - Koin
     implementation "io.insert-koin:koin-android:$koin_android_version"
 
+    // Image Loader - Picasso
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+
     // App Logger - Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
-
-    testImplementation "junit:junit:$junit_version"
-
-    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
 }
