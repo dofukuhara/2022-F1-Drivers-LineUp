@@ -1,0 +1,23 @@
+ext {
+    // Build And App Version params
+    compile_sdk_version = 33
+    min_sdk_version = 23
+    target_sdk_version = 33
+    app_version_code = 1
+    app_version_name = "1.0.0"
+
+    // Android View Component
+    androidx_appcompat_version = "1.6.1"
+    androidx_contraintlayout_version = "2.1.4"
+    google_material_version = "1.8.0"
+
+    // Core KTX
+    androidx_core_ktx_version = "1.9.0"
+
+    // Unit Test Dependencies
+    junit_version = "4.13.2"
+
+    // UI Test Dependencies
+    androidx_junit_version = "1.1.5"
+    androidx_espresso_version = "3.5.1"
+}
