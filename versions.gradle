@@ -10,6 +10,7 @@ ext {
     androidx_appcompat_version = "1.6.1"
     androidx_contraintlayout_version = "2.1.4"
     google_material_version = "1.8.0"
+    fragment_ktx_version = "1.5.5"
 
     // Core KTX
     androidx_core_ktx_version = "1.9.0"
@@ -22,6 +23,14 @@ ext {
 
     // App Logger - Timber
     timber_version = "5.0.1"
+
+    // Navigation Component
+    nav_component_version = "2.5.3"
+
+    // Network - Retrofit, Gson Converter, Logging Interceptor
+    retrofit_version = "2.9.0"
+    okhttp3_logging_version = "4.10.0"
+    gson_version = "2.10"
 
     // Unit Test Dependencies
     junit_version = "4.13.2"
