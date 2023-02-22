@@ -1,0 +1,66 @@
+{
+  "driverId": "de_vries",
+  "Races": [
+    {
+      "season": "2022",
+      "round": "16",
+      "url": "http://en.wikipedia.org/wiki/2022_Italian_Grand_Prix",
+      "raceName": "Italian Grand Prix",
+      "Circuit": {
+        "circuitId": "monza",
+        "url": "http://en.wikipedia.org/wiki/Autodromo_Nazionale_Monza",
+        "circuitName": "Autodromo Nazionale di Monza",
+        "Location": {
+          "lat": "45.6156",
+          "long": "9.28111",
+          "locality": "Monza",
+          "country": "Italy"
+        }
+      },
+      "date": "2022-09-11",
+      "time": "13:00:00Z",
+      "Results": [
+        {
+          "number": "45",
+          "position": "9",
+          "positionText": "9",
+          "points": "2",
+          "Driver": {
+            "driverId": "de_vries",
+            "permanentNumber": "45",
+            "code": "DEV",
+            "url": "http://en.wikipedia.org/wiki/Nyck_de_Vries",
+            "givenName": "Nyck",
+            "familyName": "de Vries",
+            "dateOfBirth": "1995-02-06",
+            "nationality": "Dutch"
+          },
+          "Constructor": {
+            "constructorId": "williams",
+            "url": "http://en.wikipedia.org/wiki/Williams_Grand_Prix_Engineering",
+            "name": "Williams",
+            "nationality": "British"
+          },
+          "grid": "8",
+          "laps": "53",
+          "status": "Finished",
+          "Time": {
+            "millis": "4834633",
+            "time": "+7.122"
+          },
+          "FastestLap": {
+            "rank": "13",
+            "lap": "41",
+            "Time": {
+              "time": "1:26.624"
+            },
+            "AverageSpeed": {
+              "units": "kph",
+              "speed": "240.750"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
