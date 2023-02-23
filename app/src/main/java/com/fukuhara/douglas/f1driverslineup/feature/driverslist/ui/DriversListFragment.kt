@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.fukuhara.douglas.f1driverslineup.R
 import com.fukuhara.douglas.f1driverslineup.databinding.DriversListFragmentBinding
 import com.fukuhara.douglas.f1driverslineup.feature.driverslist.di.driversListModule
+import com.fukuhara.douglas.f1driverslineup.feature.driverslist.model.DriverModel
 import com.fukuhara.douglas.f1driverslineup.feature.driverslist.viewmodel.DriversListViewModel
 import com.fukuhara.douglas.lib.common.services.ImageLoader
 import org.koin.android.ext.android.inject
@@ -22,6 +23,12 @@ class DriversListFragment : Fragment(R.layout.drivers_list_fragment) {
 
     private val viewModel: DriversListViewModel by viewModel()
     private val imageLoader: ImageLoader by inject()
+
+    private val driverClickListener = object : DriverClickListener {
+        override fun onClickListener(driverModel: DriverModel) {
+            viewModel.onDriverItemClick(driverModel)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +60,7 @@ class DriversListFragment : Fragment(R.layout.drivers_list_fragment) {
 
     private fun setupLiveDataObservers() {
         viewModel.driversListModel.observe(viewLifecycleOwner) { driversListModels ->
-            val customAdapter = DriversListAdapter(driversListModels, imageLoader)
+            val customAdapter = DriversListAdapter(driversListModels, imageLoader, driverClickListener)
             with(binding.driversListRv) {
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 adapter = customAdapter

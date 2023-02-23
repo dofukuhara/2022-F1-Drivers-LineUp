@@ -8,7 +8,11 @@ import com.fukuhara.douglas.f1driverslineup.databinding.DriverItemBinding
 import com.fukuhara.douglas.f1driverslineup.feature.driverslist.model.DriverModel
 import com.fukuhara.douglas.lib.common.services.ImageLoader
 
-class DriversListAdapter(private val dataset: List<DriverModel>, private val imageLoader: ImageLoader) : RecyclerView.Adapter<DriversListViewHolder>() {
+class DriversListAdapter(
+    private val dataset: List<DriverModel>,
+    private val imageLoader: ImageLoader,
+    private val driverClickListener: DriverClickListener
+) : RecyclerView.Adapter<DriversListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DriversListViewHolder {
         val binding = DriverItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
@@ -18,12 +22,12 @@ class DriversListAdapter(private val dataset: List<DriverModel>, private val ima
     override fun getItemCount(): Int = dataset.size
 
     override fun onBindViewHolder(holder: DriversListViewHolder, position: Int) {
-        holder.onBind(dataset[position], imageLoader)
+        holder.onBind(dataset[position], imageLoader, driverClickListener)
     }
 }
 
 class DriversListViewHolder(private val binding: DriverItemBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind(data: DriverModel, imageLoader: ImageLoader) {
+    fun onBind(data: DriverModel, imageLoader: ImageLoader, driverClickListener: DriverClickListener) {
         with(binding) {
             driverItemName.text = data.name
             driverItemTeam.text = data.teamAndNumber
@@ -31,6 +35,10 @@ class DriversListViewHolder(private val binding: DriverItemBinding) : RecyclerVi
 
             imageLoader.load(data.imageUrl, driverItemAvatar)
             imageLoader.load(data.countryFlagUrl, driverItemCountryFlag)
+        }
+
+        binding.root.setOnClickListener {
+            driverClickListener.onClickListener(data)
         }
     }
 }

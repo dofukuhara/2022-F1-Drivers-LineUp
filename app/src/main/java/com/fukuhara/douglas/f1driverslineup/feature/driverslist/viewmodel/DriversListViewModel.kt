@@ -41,4 +41,7 @@ class DriversListViewModel(
             }
         }
     }
+
+    fun onDriverItemClick(driverModel: DriverModel) {
+    }
 }
