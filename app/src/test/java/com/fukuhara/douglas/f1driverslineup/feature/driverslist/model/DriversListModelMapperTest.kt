@@ -73,7 +73,7 @@ class DriversListModelMapperTest {
         assertThat(
             "DRIVER[0].nationality must be Thai",
             (modelResult as Result.Success).model.drivers[0].nationality,
-            `is`("Thai")
+            `is`("TH")
         )
     }
 
@@ -314,6 +314,54 @@ class DriversListModelMapperTest {
     }
 
     @Test
+    fun `given A Single Dto Missing Team, When Transforming Dto Into Model Non-Skippable, Then A Result With ModelParserException Must Be Returned`() {
+        // Given
+        val missingTeamSingleDto = DriversListDtoHelper.generateMissingTeamSingleElement()
+
+        // When
+        val modelResult = modelMapper.transform(missingTeamSingleDto)
+
+        // Then
+        assertThat(
+            "Given a DTO missing a mandatory MODEL field, then ModelMapper must return a Failure Result",
+            modelResult is Result.Failure
+        )
+        assertThat(
+            "Given a DTO missing a mandatory MODEL field, then ModelMapper must emit a proper exception",
+            (modelResult as Result.Failure).throwable is ModelParserException
+        )
+        assertThat(
+            "Given that this DTO has an invalid Team, then the custom exception must inform which field was invalid",
+            (modelResult as Result.Failure).throwable.message,
+            `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.team field]")
+        )
+    }
+
+    @Test
+    fun `given A Single Dto Missing TeamColor, When Transforming Dto Into Model Non-Skippable, Then A Result With ModelParserException Must Be Returned`() {
+        // Given
+        val missingTeamColorSingleDto = DriversListDtoHelper.generateMissingTeamColorSingleElement()
+
+        // When
+        val modelResult = modelMapper.transform(missingTeamColorSingleDto)
+
+        // Then
+        assertThat(
+            "Given a DTO missing a mandatory MODEL field, then ModelMapper must return a Failure Result",
+            modelResult is Result.Failure
+        )
+        assertThat(
+            "Given a DTO missing a mandatory MODEL field, then ModelMapper must emit a proper exception",
+            (modelResult as Result.Failure).throwable is ModelParserException
+        )
+        assertThat(
+            "Given that this DTO has an invalid TeamColor, then the custom exception must inform which field was invalid",
+            (modelResult as Result.Failure).throwable.message,
+            `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.teamColor field]")
+        )
+    }
+
+    @Test
     fun `given A Single Dto Missing Nationality, When Transforming Dto Into Model Non-Skippable, Then A Result With ModelParserException Must Be Returned`() {
         // Given
         val missingNationalitySingleDto = DriversListDtoHelper.generateMissingNationalitySingleElement()
@@ -376,7 +424,7 @@ class DriversListModelMapperTest {
         verify {
             appLoggerMock.e(
                 tag = "DriversListModelMapper",
-                message = "Skipping this element from the list, as it is missing a mandatory field for DriverModel - [DriverDto(driverId=albon, permanentNumber=23, code=ALB, url=http://en.wikipedia.org/wiki/Alexander_Albon, imageUrl=https://raw.githubusercontent.com/dofukuhara/2022-F1-Drivers-LineUp/main/api/img/williams/albon.png, givenName=Alexander, familyName=Albon, dateOfBirth=1996-03-23, nationality=null)]"
+                message = "Skipping this element from the list, as it is missing a mandatory field for DriverModel - [DriverDto(driverId=albon, permanentNumber=23, code=ALB, url=http://en.wikipedia.org/wiki/Alexander_Albon, imageUrl=https://raw.githubusercontent.com/dofukuhara/2022-F1-Drivers-LineUp/main/api/img/williams/albon.png, givenName=Alexander, familyName=Albon, dateOfBirth=1996-03-23, team=Williams, teamColor=#37BEDD, nationality=null)]"
             )
         }
     }
@@ -420,7 +468,7 @@ class DriversListModelMapperTest {
         verify {
             appLoggerMock.e(
                 tag = "DriversListModelMapper",
-                message = "Skipping this element from the list, as it is missing a mandatory field for DriverModel - [DriverDto(driverId=alonso, permanentNumber=14, code=ALO, url=http://en.wikipedia.org/wiki/Fernando_Alonso, imageUrl=https://raw.githubusercontent.com/dofukuhara/2022-F1-Drivers-LineUp/main/api/img/alpine/alonso.jpeg, givenName=Fernando, familyName=null, dateOfBirth=1981-07-29, nationality=Spanish)]"
+                message = "Skipping this element from the list, as it is missing a mandatory field for DriverModel - [DriverDto(driverId=alonso, permanentNumber=14, code=ALO, url=http://en.wikipedia.org/wiki/Fernando_Alonso, imageUrl=https://raw.githubusercontent.com/dofukuhara/2022-F1-Drivers-LineUp/main/api/img/alpine/alonso.jpeg, givenName=Fernando, familyName=null, dateOfBirth=1981-07-29, team=Alpine, teamColor=#2293D1, nationality=Spanish)]"
             )
         }
     }

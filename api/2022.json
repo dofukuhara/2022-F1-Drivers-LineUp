@@ -12,7 +12,9 @@
       "givenName": "Alexander",
       "familyName": "Albon",
       "dateOfBirth": "1996-03-23",
-      "nationality": "Thai"
+      "team": "Williams",
+      "teamColor": "#37BEDD",
+      "nationality": "TH"
     },
     {
       "driverId": "alonso",
@@ -23,7 +25,9 @@
       "givenName": "Fernando",
       "familyName": "Alonso",
       "dateOfBirth": "1981-07-29",
-      "nationality": "Spanish"
+      "team": "Alpine",
+      "teamColor": "#2293D1",
+      "nationality": "ES"
     },
     {
       "driverId": "bottas",
@@ -34,7 +38,9 @@
       "givenName": "Valtteri",
       "familyName": "Bottas",
       "dateOfBirth": "1989-08-28",
-      "nationality": "Finnish"
+      "team": "Alfa Romeo",
+      "teamColor": "#C92D4B",
+      "nationality": "FI"
     },
     {
       "driverId": "de_vries",
@@ -45,7 +51,9 @@
       "givenName": "Nyck",
       "familyName": "de Vries",
       "dateOfBirth": "1995-02-06",
-      "nationality": "Dutch"
+      "team": "Williams",
+      "teamColor": "#37BEDD",
+      "nationality": "NL"
     },
     {
       "driverId": "gasly",
@@ -56,7 +64,9 @@
       "givenName": "Pierre",
       "familyName": "Gasly",
       "dateOfBirth": "1996-02-07",
-      "nationality": "French"
+      "team": "AlphaTauri",
+      "teamColor": "#5E8FAA",
+      "nationality": "FR"
     },
     {
       "driverId": "hamilton",
@@ -67,7 +77,9 @@
       "givenName": "Lewis",
       "familyName": "Hamilton",
       "dateOfBirth": "1985-01-07",
-      "nationality": "British"
+      "team": "Mercedes",
+      "teamColor": "#6CD3BF",
+      "nationality": "GB"
     },
     {
       "driverId": "hulkenberg",
@@ -78,7 +90,9 @@
       "givenName": "Nico",
       "familyName": "Hülkenberg",
       "dateOfBirth": "1987-08-19",
-      "nationality": "German"
+      "team": "Aston Martin",
+      "teamColor": "#358C75",
+      "nationality": "DE"
     },
     {
       "driverId": "latifi",
@@ -89,7 +103,9 @@
       "givenName": "Nicholas",
       "familyName": "Latifi",
       "dateOfBirth": "1995-06-29",
-      "nationality": "Canadian"
+      "team": "Williams",
+      "teamColor": "#37BEDD",
+      "nationality": "CA"
     },
     {
       "driverId": "leclerc",
@@ -100,7 +116,9 @@
       "givenName": "Charles",
       "familyName": "Leclerc",
       "dateOfBirth": "1997-10-16",
-      "nationality": "Monegasque"
+      "team": "Ferrari",
+      "teamColor": "#F91536",
+      "nationality": "MC"
     },
     {
       "driverId": "kevin_magnussen",
@@ -111,7 +129,9 @@
       "givenName": "Kevin",
       "familyName": "Magnussen",
       "dateOfBirth": "1992-10-05",
-      "nationality": "Danish"
+      "team": "Haas F1 Team",
+      "teamColor": "#B6BABD",
+      "nationality": "DK"
     },
     {
       "driverId": "norris",
@@ -122,7 +142,9 @@
       "givenName": "Lando",
       "familyName": "Norris",
       "dateOfBirth": "1999-11-13",
-      "nationality": "British"
+      "team": "McLaren",
+      "teamColor": "#F58020",
+      "nationality": "GB"
     },
     {
       "driverId": "ocon",
@@ -133,7 +155,9 @@
       "givenName": "Esteban",
       "familyName": "Ocon",
       "dateOfBirth": "1996-09-17",
-      "nationality": "French"
+      "team": "Alpine",
+      "teamColor": "#2293D1",
+      "nationality": "FR"
     },
     {
       "driverId": "perez",
@@ -144,7 +168,9 @@
       "givenName": "Sergio",
       "familyName": "Pérez",
       "dateOfBirth": "1990-01-26",
-      "nationality": "Mexican"
+      "team": "Red Bull Racing",
+      "teamColor": "#3671C6",
+      "nationality": "MX"
     },
     {
       "driverId": "ricciardo",
@@ -155,7 +181,9 @@
       "givenName": "Daniel",
       "familyName": "Ricciardo",
       "dateOfBirth": "1989-07-01",
-      "nationality": "Australian"
+      "team": "McLaren",
+      "teamColor": "#F58020",
+      "nationality": "AU"
     },
     {
       "driverId": "russell",
@@ -166,7 +194,9 @@
       "givenName": "George",
       "familyName": "Russell",
       "dateOfBirth": "1998-02-15",
-      "nationality": "British"
+      "team": "Mercedes",
+      "teamColor": "#6CD3BF",
+      "nationality": "GB"
     },
     {
       "driverId": "sainz",
@@ -177,7 +207,9 @@
       "givenName": "Carlos",
       "familyName": "Sainz",
       "dateOfBirth": "1994-09-01",
-      "nationality": "Spanish"
+      "team": "Ferrari",
+      "teamColor": "#F91536",
+      "nationality": "ES"
     },
     {
       "driverId": "mick_schumacher",
@@ -188,7 +220,9 @@
       "givenName": "Mick",
       "familyName": "Schumacher",
       "dateOfBirth": "1999-03-22",
-      "nationality": "German"
+      "team": "Haas F1 Team",
+      "teamColor": "#B6BABD",
+      "nationality": "DE"
     },
     {
       "driverId": "stroll",
@@ -199,7 +233,9 @@
       "givenName": "Lance",
       "familyName": "Stroll",
       "dateOfBirth": "1998-10-29",
-      "nationality": "Canadian"
+      "team": "Aston Martin",
+      "teamColor": "#358C75",
+      "nationality": "CA"
     },
     {
       "driverId": "tsunoda",
@@ -210,7 +246,9 @@
       "givenName": "Yuki",
       "familyName": "Tsunoda",
       "dateOfBirth": "2000-05-11",
-      "nationality": "Japanese"
+      "team": "AlphaTauri",
+      "teamColor": "#5E8FAA",
+      "nationality": "JP"
     },
     {
       "driverId": "max_verstappen",
@@ -221,7 +259,9 @@
       "givenName": "Max",
       "familyName": "Verstappen",
       "dateOfBirth": "1997-09-30",
-      "nationality": "Dutch"
+      "team": "Red Bull Racing",
+      "teamColor": "#3671C6",
+      "nationality": "NL"
     },
     {
       "driverId": "vettel",
@@ -232,7 +272,9 @@
       "givenName": "Sebastian",
       "familyName": "Vettel",
       "dateOfBirth": "1987-07-03",
-      "nationality": "German"
+      "team": "Aston Martin",
+      "teamColor": "#358C75",
+      "nationality": "DE"
     },
     {
       "driverId": "zhou",
@@ -243,7 +285,9 @@
       "givenName": "Guanyu",
       "familyName": "Zhou",
       "dateOfBirth": "1999-05-30",
-      "nationality": "Chinese"
+      "team": "Alfa Romeo",
+      "teamColor": "#C92D4B",
+      "nationality": "CN"
     }
   ]
 }

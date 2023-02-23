@@ -28,6 +28,10 @@ data class DriverDto(
     val familyName: String?,
     @SerializedName("dateOfBirth")
     val dateOfBirth: String?,
+    @SerializedName("team")
+    val team: String?,
+    @SerializedName("teamColor")
+    val teamColor: String?,
     @SerializedName("nationality")
     val nationality: String?
 )

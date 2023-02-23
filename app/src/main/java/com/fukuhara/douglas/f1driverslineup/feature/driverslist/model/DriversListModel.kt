@@ -12,7 +12,10 @@ data class DriverModel(
     private val givenName: String,
     private val familyName: String,
     val dateOfBirth: String,
+    val team: String,
+    val teamColor: String,
     val nationality: String
 ) {
     val name = "$givenName $familyName"
+    val teamAndNumber = "$team - #$permanentNumber"
 }

@@ -26,6 +26,8 @@ class DriversListModelMapper(
                 val givenName = driverDto.givenName ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.givenName field]") }
                 val familyName = driverDto.familyName ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.familyName field]") }
                 val dateOfBirth = driverDto.dateOfBirth ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.dateOfBirth field]") }
+                val team = driverDto.team ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.team field]") }
+                val teamColor = driverDto.teamColor ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.teamColor field]") }
                 val nationality = driverDto.nationality ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.nationality field]") }
 
                 val permanentNumber = if (driverDto.permanentNumber?.matches("\\d*".toRegex()) == true) {
@@ -36,11 +38,11 @@ class DriversListModelMapper(
                     throw ModelParserException(" [Missing or invalid Drivers.permanentNumber field]")
                 }
 
-                if (driverId == null || permanentNumber == null || imageUrl == null || givenName == null || familyName == null || dateOfBirth == null || nationality == null) {
+                if (driverId == null || permanentNumber == null || imageUrl == null || givenName == null || familyName == null || dateOfBirth == null || team == null || teamColor == null || nationality == null) {
                     appLogger.e(tag = "DriversListModelMapper", message = "Skipping this element from the list, as it is missing a mandatory field for DriverModel - [$driverDto]")
                     null
                 } else {
-                    DriverModel(driverId, permanentNumber, imageUrl, givenName, familyName, dateOfBirth, nationality)
+                    DriverModel(driverId, permanentNumber, imageUrl, givenName, familyName, dateOfBirth, team, teamColor, nationality)
                 }
             } ?: throw ModelParserException(" [Missing Drivers field]")
 
