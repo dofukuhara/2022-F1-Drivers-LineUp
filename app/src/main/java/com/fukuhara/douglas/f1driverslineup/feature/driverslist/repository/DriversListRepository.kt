@@ -24,7 +24,13 @@ internal class DriversListRemoteRepository(
 
             responseModel.fold(
                 failure = { throwable -> return throwable.failure() },
-                success = { driversListModel -> return driversListModel.success() }
+                success = { driversListModel ->
+                    if (driversListModel.drivers.isEmpty()) {
+                        return NoDataFoundException("Drivers List returned was empty").failure()
+                    } else {
+                        return driversListModel.success()
+                    }
+                }
             )
         } catch (throwable: Throwable) {
             return NoDataFoundException("Failed to retrieve data from network").failure()
