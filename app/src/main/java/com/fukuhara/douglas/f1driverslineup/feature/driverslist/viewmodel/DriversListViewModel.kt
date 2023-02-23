@@ -31,8 +31,10 @@ class DriversListViewModel(
                     failure = { throwable -> appLogger.v("DriversListViewModel", "Error: ${throwable.message}") },
                     success = { driversListModels ->
                         _driversListModel.value = driversListModels.drivers.sortedWith(
-                            compareBy({ it.team },
-                                { it.name })
+                            compareBy(
+                                { it.team },
+                                { it.name }
+                            )
                         )
                     }
                 )
