@@ -9,23 +9,38 @@
         android:id="@+id/driver_item_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="@dimen/common_half_margin"
+        android:layout_marginStart="@dimen/common_margin"
+        android:layout_marginBottom="@dimen/common_half_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/driver_item_team_color"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
         android:id="@+id/driver_item_team_color"
         android:layout_width="4dp"
         android:layout_height="40dp"
+        android:layout_marginStart="@dimen/common_half_margin"
+        android:layout_marginEnd="@dimen/common_half_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/driver_item_avatar"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/driver_item_team_color_end_barrier"
         tools:background="#2293D1" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/driver_item_team_color_end_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="driver_item_name, driver_item_team" />
 
     <TextView
         android:id="@+id/driver_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_half_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/driver_item_team_color"
         app:layout_constraintEnd_toStartOf="@id/driver_item_country_flag"
@@ -36,6 +51,7 @@
         android:id="@+id/driver_item_country_flag"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginStart="@dimen/common_margin"
         app:layout_constraintTop_toBottomOf="@id/driver_item_name"
         app:layout_constraintStart_toEndOf="@id/driver_item_name"
         app:layout_constraintBottom_toTopOf="@id/driver_item_name" />
@@ -44,6 +60,7 @@
         android:id="@+id/driver_item_team"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_half_margin"
         app:layout_constraintTop_toBottomOf="@id/driver_item_name"
         app:layout_constraintStart_toEndOf="@id/driver_item_team_color"
         app:layout_constraintEnd_toEndOf="parent"

@@ -18,4 +18,5 @@ data class DriverModel(
 ) {
     val name = "$givenName $familyName"
     val teamAndNumber = "$team - #$permanentNumber"
+    val countryFlagUrl = "https://flagsapi.com/$nationality/flat/24.png"
 }

@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.fukuhara.douglas.f1driverslineup.R
 import com.fukuhara.douglas.f1driverslineup.databinding.DriversListFragmentBinding
 import com.fukuhara.douglas.f1driverslineup.feature.driverslist.di.driversListModule
 import com.fukuhara.douglas.f1driverslineup.feature.driverslist.viewmodel.DriversListViewModel
+import com.fukuhara.douglas.lib.common.services.ImageLoader
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
@@ -18,6 +21,7 @@ class DriversListFragment : Fragment(R.layout.drivers_list_fragment) {
     private val binding get() = _binding!!
 
     private val viewModel: DriversListViewModel by viewModel()
+    private val imageLoader: ImageLoader by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +53,11 @@ class DriversListFragment : Fragment(R.layout.drivers_list_fragment) {
 
     private fun setupLiveDataObservers() {
         viewModel.driversListModel.observe(viewLifecycleOwner) { driversListModels ->
-            // TODO : Populate view with Drivers List content
+            val customAdapter = DriversListAdapter(driversListModels, imageLoader)
+            with(binding.driversListRv) {
+                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+                adapter = customAdapter
+            }
         }
     }
 }
