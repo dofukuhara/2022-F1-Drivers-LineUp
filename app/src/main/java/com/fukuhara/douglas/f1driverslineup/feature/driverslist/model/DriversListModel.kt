@@ -6,13 +6,13 @@ data class DriversListModel(
 )
 
 data class DriverModel(
-    val driverId: String?,
-    val permanentNumber: String?,
-    val imageUrl: String?,
-    private val givenName: String?,
-    private val familyName: String?,
-    val dateOfBirth: String?,
-    val nationality: String?
+    val driverId: String,
+    val permanentNumber: Int,
+    val imageUrl: String,
+    private val givenName: String,
+    private val familyName: String,
+    val dateOfBirth: String,
+    val nationality: String
 ) {
     val name = "$givenName $familyName"
 }

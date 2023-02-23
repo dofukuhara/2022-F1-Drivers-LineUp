@@ -22,7 +22,7 @@ val driversListModule = module {
     factory<DriversListRepository> {
         DriversListRemoteRepository(
             api = getDriverListServiceApi(client = get()),
-            modelMapper = DriversListModelMapper()
+            modelMapper = DriversListModelMapper(skipElementIfFailedToParseDriver = false, appLogger = get())
         )
     }
 }

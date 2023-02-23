@@ -6,21 +6,42 @@ import com.fukuhara.douglas.lib.common.arch.Result
 import com.fukuhara.douglas.lib.common.arch.failure
 import com.fukuhara.douglas.lib.common.arch.success
 import com.fukuhara.douglas.lib.common.exception.ModelParserException
+import com.fukuhara.douglas.lib.common.logger.AppLogger
 
-class DriversListModelMapper : DriverListMapperType {
+/*
+    skipElementIfFailedToParseDriver:
+        TRUE: ModelMapper will perform a 1:1 transformation. In case that at least one mandatory field required by DriverModel is missing from DTO, then we will invalidate the entire obj.
+        FALSE : ModelMapper will perform (N)Dto : (M)Model, where N>=M. In case that at least one mandatory field required by DriverModel is missing from DTO, then this element will be skipped from the mapping
+ */
+class DriversListModelMapper(
+    private val skipElementIfFailedToParseDriver: Boolean = false,
+    private val appLogger: AppLogger
+) : DriverListMapperType {
     override fun transform(dtoData: DriversListDto): Result<Throwable, DriversListModel> {
         try {
             val season = dtoData.season ?: throw ModelParserException(" [Missing season field]")
-            val drivers = dtoData.drivers?.map { driverDto ->
-                val driverId = driverDto.driverId ?: throw ModelParserException(" [Missing Drivers.driverId field]")
-                val permanentNumber = driverDto.permanentNumber ?: throw ModelParserException(" [Missing Drivers.permanentNumber field]")
-                val imageUrl = driverDto.imageUrl ?: throw ModelParserException(" [Missing Drivers.imageUrl field]")
-                val givenName = driverDto.givenName ?: throw ModelParserException(" [Missing Drivers.givenName field]")
-                val familyName = driverDto.familyName ?: throw ModelParserException(" [Missing Drivers.familyName field]")
-                val dateOfBirth = driverDto.dateOfBirth ?: throw ModelParserException(" [Missing Drivers.dateOfBirth field]")
-                val nationality = driverDto.nationality ?: throw ModelParserException(" [Missing Drivers.nationality field]")
+            val drivers = dtoData.drivers?.mapNotNull { driverDto ->
+                val driverId = driverDto.driverId ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.driverId field]") }
+                val imageUrl = driverDto.imageUrl ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.imageUrl field]") }
+                val givenName = driverDto.givenName ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.givenName field]") }
+                val familyName = driverDto.familyName ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.familyName field]") }
+                val dateOfBirth = driverDto.dateOfBirth ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.dateOfBirth field]") }
+                val nationality = driverDto.nationality ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.nationality field]") }
 
-                DriverModel(driverId, permanentNumber, imageUrl, givenName, familyName, dateOfBirth, nationality)
+                val permanentNumber = if (driverDto.permanentNumber?.matches("\\d*".toRegex()) == true) {
+                    driverDto.permanentNumber.toInt()
+                } else if (skipElementIfFailedToParseDriver) {
+                    null
+                } else {
+                    throw ModelParserException(" [Missing or invalid Drivers.permanentNumber field]")
+                }
+
+                if (driverId == null || permanentNumber == null || imageUrl == null || givenName == null || familyName == null || dateOfBirth == null || nationality == null) {
+                    appLogger.e(tag = "DriversListModelMapper", message = "Skipping this element from the list, as it is missing a mandatory field for DriverModel - [$driverDto]")
+                    null
+                } else {
+                    DriverModel(driverId, permanentNumber, imageUrl, givenName, familyName, dateOfBirth, nationality)
+                }
             } ?: throw ModelParserException(" [Missing Drivers field]")
 
             val resultModelList = DriversListModel(season, drivers)
