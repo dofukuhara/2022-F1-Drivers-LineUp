@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.fukuhara.douglas.f1driverslineup.R
 import com.fukuhara.douglas.f1driverslineup.databinding.DriversListFragmentBinding
@@ -26,7 +27,8 @@ class DriversListFragment : Fragment(R.layout.drivers_list_fragment) {
 
     private val driverClickListener = object : DriverClickListener {
         override fun onClickListener(driverModel: DriverModel) {
-            viewModel.onDriverItemClick(driverModel)
+            val navDirection = DriversListFragmentDirections.actionDriversListFragmentToDriverDetailsFragment(driverModel)
+            findNavController().navigate(navDirection)
         }
     }
 

@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav_graph"
     app:startDestination="@id/driversListFragment">
 
     <fragment
         android:id="@+id/driversListFragment"
         android:name="com.fukuhara.douglas.f1driverslineup.feature.driverslist.ui.DriversListFragment"
-        android:label="DriversListFragment" />
+        android:label="DriversListFragment"
+        tools:layout="@layout/drivers_list_fragment">
+        <action
+            android:id="@+id/action_driversListFragment_to_driverDetailsFragment"
+            app:destination="@id/driverDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/driverDetailsFragment"
+        android:name="com.fukuhara.douglas.f1driverslineup.feature.driverdetails.ui.DriverDetailsFragment"
+        android:label="DriverDetailsFragment"
+        tools:layout="@layout/driver_detail_fragment">
+        <argument
+            android:name="driverModel"
+            app:argType="com.fukuhara.douglas.f1driverslineup.feature.driverslist.model.DriverModel" />
+    </fragment>
 </navigation>
