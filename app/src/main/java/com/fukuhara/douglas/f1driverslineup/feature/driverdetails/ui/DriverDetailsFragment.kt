@@ -9,14 +9,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.fukuhara.douglas.f1driverslineup.R
 import com.fukuhara.douglas.f1driverslineup.databinding.DriverDetailFragmentBinding
+import com.fukuhara.douglas.f1driverslineup.feature.driverdetails.di.driverDetailsModule
+import com.fukuhara.douglas.f1driverslineup.feature.driverdetails.viewmodel.DriverDetailsViewModel
 import com.fukuhara.douglas.lib.common.logger.AppLogger
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 
 class DriverDetailsFragment : Fragment(R.layout.driver_detail_fragment) {
     private var _binding: DriverDetailFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val navArgs: DriverDetailsFragmentArgs by navArgs()
+    private val viewModel: DriverDetailsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +31,8 @@ class DriverDetailsFragment : Fragment(R.layout.driver_detail_fragment) {
     ): View {
         _binding = DriverDetailFragmentBinding.inflate(inflater, container, false)
 
+        loadKoinModules(driverDetailsModule)
+
         return binding.root
     }
 
@@ -32,19 +40,34 @@ class DriverDetailsFragment : Fragment(R.layout.driver_detail_fragment) {
         super.onDestroyView()
 
         _binding = null
+
+        unloadKoinModules(driverDetailsModule)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val appLogger: AppLogger by inject()
-        appLogger.v("DriverDetailsFragment", "-> ${navArgs.driverModel}")
+        viewModel.initViewModel(navArgs.driverModel)
 
-        setupToolbar()
+        setupViewModelObservers()
     }
 
-    private fun setupToolbar() {
-        binding.driverDetailToolbar.setText(navArgs.driverModel.name)
-        binding.driverDetailToolbar.setUpBackButton { findNavController().navigateUp() }
+    private fun setupViewModelObservers() {
+        setupToolbarCustomizationObserver()
+        setupDriverRaceDetailsList()
+    }
+
+    private fun setupToolbarCustomizationObserver() {
+        viewModel.toolbarTitle.observe(viewLifecycleOwner) { toolbarTitle ->
+            binding.driverDetailToolbar.setText(toolbarTitle)
+            binding.driverDetailToolbar.setUpBackButton { findNavController().navigateUp() }
+        }
+    }
+
+    private fun setupDriverRaceDetailsList() {
+        viewModel.driverRaceDetailsModel.observe(viewLifecycleOwner) { listOfRaces ->
+            val appLogger: AppLogger by inject()
+            appLogger.v("FUKUHARALOG", listOfRaces.toString())
+        }
     }
 }

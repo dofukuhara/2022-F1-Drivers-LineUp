@@ -189,7 +189,7 @@ class DriversListModelMapperTest {
         assertThat(
             "Given that this DTO is missing PermanentNumber field, then the custom exception must inform which field was missing",
             (modelResult as Result.Failure).throwable.message,
-            `is`("Failed to Parse DriversListDto to DriversListModel [Missing or invalid Drivers.permanentNumber field]")
+            `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.permanentNumber field]")
         )
     }
 
@@ -211,9 +211,9 @@ class DriversListModelMapperTest {
             (modelResult as Result.Failure).throwable is ModelParserException
         )
         assertThat(
-            "Given that this DTO has an invalid PermanentNumber, then the custom exception must inform which field was invalid",
+            "Given that this DTO has an invalid PermanentNumber, then the custom exception must inform which field was missing",
             (modelResult as Result.Failure).throwable.message,
-            `is`("Failed to Parse DriversListDto to DriversListModel [Missing or invalid Drivers.permanentNumber field]")
+            `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.permanentNumber field]")
         )
     }
 

@@ -19,24 +19,17 @@ class DriversListModelMapper(
 ) : DriverListMapperType {
     override fun transform(dtoData: DriversListDto): Result<Throwable, DriversListModel> {
         try {
-            val season = dtoData.season ?: throw ModelParserException(" [Missing season field]")
+            val season = dtoData.season ?: return generateMissingFieldException("Missing season field")
             val drivers = dtoData.drivers?.mapNotNull { driverDto ->
-                val driverId = driverDto.driverId ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.driverId field]") }
-                val imageUrl = driverDto.imageUrl ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.imageUrl field]") }
-                val givenName = driverDto.givenName ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.givenName field]") }
-                val familyName = driverDto.familyName ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.familyName field]") }
-                val dateOfBirth = driverDto.dateOfBirth ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.dateOfBirth field]") }
-                val team = driverDto.team ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.team field]") }
-                val teamColor = driverDto.teamColor ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.teamColor field]") }
-                val nationality = driverDto.nationality ?: if (skipElementIfFailedToParseDriver) { null } else { throw ModelParserException(" [Missing Drivers.nationality field]") }
-
-                val permanentNumber = if (driverDto.permanentNumber?.matches("\\d*".toRegex()) == true) {
-                    driverDto.permanentNumber.toInt()
-                } else if (skipElementIfFailedToParseDriver) {
-                    null
-                } else {
-                    throw ModelParserException(" [Missing or invalid Drivers.permanentNumber field]")
-                }
+                val driverId = driverDto.driverId ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.driverId field") }
+                val permanentNumber = driverDto.permanentNumber?.toIntOrNull() ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.permanentNumber field") }
+                val imageUrl = driverDto.imageUrl ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.imageUrl field") }
+                val givenName = driverDto.givenName ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.givenName field") }
+                val familyName = driverDto.familyName ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.familyName field") }
+                val dateOfBirth = driverDto.dateOfBirth ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.dateOfBirth field") }
+                val team = driverDto.team ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.team field") }
+                val teamColor = driverDto.teamColor ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.teamColor field") }
+                val nationality = driverDto.nationality ?: if (skipElementIfFailedToParseDriver) { null } else { return generateMissingFieldException("Missing Drivers.nationality field") }
 
                 if (driverId == null || permanentNumber == null || imageUrl == null || givenName == null || familyName == null || dateOfBirth == null || team == null || teamColor == null || nationality == null) {
                     appLogger.e(tag = "DriversListModelMapper", message = "Skipping this element from the list, as it is missing a mandatory field for DriverModel - [$driverDto]")
@@ -44,19 +37,17 @@ class DriversListModelMapper(
                 } else {
                     DriverModel(driverId, permanentNumber, imageUrl, givenName, familyName, dateOfBirth, team, teamColor, nationality)
                 }
-            } ?: throw ModelParserException(" [Missing Drivers field]")
+            } ?: return generateMissingFieldException("Missing Drivers field")
 
             val resultModelList = DriversListModel(season, drivers)
 
             return resultModelList.success()
         } catch (throwable: Throwable) {
-            val customMessage = if (throwable is ModelParserException) {
-                throwable.message
-            } else {
-                ""
-            }
-
-            return ModelParserException("Failed to Parse DriversListDto to DriversListModel$customMessage").failure()
+            return generateMissingFieldException(throwable.message)
         }
+    }
+
+    private fun generateMissingFieldException(additionalMessage: String?): Result.Failure<ModelParserException> {
+        return ModelParserException("Failed to Parse DriversListDto to DriversListModel [$additionalMessage]").failure()
     }
 }
