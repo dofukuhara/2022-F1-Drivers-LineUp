@@ -57,7 +57,12 @@ class DriversListFragment : Fragment(R.layout.drivers_list_fragment) {
 
         viewModel.init()
 
+        setupToolbar()
         setupLiveDataObservers()
+    }
+
+    private fun setupToolbar() {
+        binding.driversListToolbar.setText(R.string.app_name)
     }
 
     private fun setupLiveDataObservers() {

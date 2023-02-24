@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.fukuhara.douglas.f1driverslineup.R
 import com.fukuhara.douglas.f1driverslineup.databinding.DriverDetailFragmentBinding
@@ -38,5 +39,12 @@ class DriverDetailsFragment : Fragment(R.layout.driver_detail_fragment) {
 
         val appLogger: AppLogger by inject()
         appLogger.v("DriverDetailsFragment", "-> ${navArgs.driverModel}")
+
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        binding.driverDetailToolbar.setText(navArgs.driverModel.name)
+        binding.driverDetailToolbar.setUpBackButton { findNavController().navigateUp() }
     }
 }
