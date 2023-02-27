@@ -3,6 +3,7 @@ package com.fukuhara.douglas.f1driverslineup.feature.driverslist.model
 import com.fukuhara.douglas.f1driverslineup.feature.driverslist.repository.dto.DriversListDto
 import com.fukuhara.douglas.lib.common.arch.Result
 import com.fukuhara.douglas.lib.common.exception.ModelParserException
+import com.fukuhara.douglas.lib.common.exception.NoDataFoundException
 import com.fukuhara.douglas.lib.common.logger.AppLogger
 import com.fukuhara.douglas.lib.common.model.ModelMapper
 import io.mockk.mockk
@@ -42,37 +43,37 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "DRIVERS_LIST must be size 1",
-            (modelResult as Result.Success).model.drivers.size,
+            modelResult.model.drivers.size,
             `is`(1)
         )
         assertThat(
             "DRIVER[0].driverId must be albon",
-            (modelResult as Result.Success).model.drivers[0].driverId,
+            modelResult.model.drivers[0].driverId,
             `is`("albon")
         )
         assertThat(
             "DRIVER[0].permanentNumber must be 23",
-            (modelResult as Result.Success).model.drivers[0].permanentNumber,
+            modelResult.model.drivers[0].permanentNumber,
             `is`(23)
         )
         assertThat(
             "DRIVER[0].imageUrl must be https://raw.githubusercontent.com/dofukuhara/2022-F1-Drivers-LineUp/main/api/img/williams/albon.png",
-            (modelResult as Result.Success).model.drivers[0].imageUrl,
+            modelResult.model.drivers[0].imageUrl,
             `is`("https://raw.githubusercontent.com/dofukuhara/2022-F1-Drivers-LineUp/main/api/img/williams/albon.png")
         )
         assertThat(
             "DRIVER[0].name must be Alexander Albon",
-            (modelResult as Result.Success).model.drivers[0].name,
+            modelResult.model.drivers[0].name,
             `is`("Alexander Albon")
         )
         assertThat(
             "DRIVER[0].dateOfBirth must be 1996-03-23",
-            (modelResult as Result.Success).model.drivers[0].dateOfBirth,
+            modelResult.model.drivers[0].dateOfBirth,
             `is`("1996-03-23")
         )
         assertThat(
             "DRIVER[0].nationality must be Thai",
-            (modelResult as Result.Success).model.drivers[0].nationality,
+            modelResult.model.drivers[0].nationality,
             `is`("TH")
         )
     }
@@ -98,7 +99,7 @@ class DriversListModelMapperTest {
     }
 
     @Test
-    fun `given A Complete Two Dto Elements And One Incomplete, When Transforming Dto Into Model Non-Skippable, Then A Model With Three Elements Must Be Returned`() {
+    fun `given A Complete Two Dto Elements And One Incomplete, When Transforming Dto Into Model Non-Skippable, Then A Result FAILURE With ModelParserException Must Be Returned`() {
         // Given
         val twoCompleteOneMissingFamilyNameElements = DriversListDtoHelper.generateTwoCompleteOneMissingFamilyNameElements()
 
@@ -116,13 +117,13 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO is missing FamilyName field, then the custom exception must inform which field was missing",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.familyName field]")
         )
     }
 
     @Test
-    fun `given A Single Dto Missing Season, When Transforming Dto Into Model Non-Skippable, Then A Result With ModelParserException Must Be Returned`() {
+    fun `given A Single Dto Missing Season, When Transforming Dto Into Model Non-Skippable, Then A Result FAILURE With ModelParserException Must Be Returned`() {
         // Given
         val missingSeasonSingleDto = DriversListDtoHelper.generateMissingSeasonSingleElement()
 
@@ -140,7 +141,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO is missing SEASON field, then the custom exception must inform which field was missing",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing season field]")
         )
     }
@@ -164,7 +165,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO is missing DriverId field, then the custom exception must inform which field was missing",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.driverId field]")
         )
     }
@@ -188,7 +189,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO is missing PermanentNumber field, then the custom exception must inform which field was missing",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.permanentNumber field]")
         )
     }
@@ -212,7 +213,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO has an invalid PermanentNumber, then the custom exception must inform which field was missing",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.permanentNumber field]")
         )
     }
@@ -236,7 +237,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO has an invalid ImageUrl, then the custom exception must inform which field was invalid",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.imageUrl field]")
         )
     }
@@ -260,7 +261,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO has an invalid GivenName, then the custom exception must inform which field was invalid",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.givenName field]")
         )
     }
@@ -284,7 +285,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO has an invalid FamilyName, then the custom exception must inform which field was invalid",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.familyName field]")
         )
     }
@@ -308,7 +309,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO has an invalid DateOfBirth, then the custom exception must inform which field was invalid",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.dateOfBirth field]")
         )
     }
@@ -332,7 +333,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO has an invalid Team, then the custom exception must inform which field was invalid",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.team field]")
         )
     }
@@ -356,7 +357,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO has an invalid TeamColor, then the custom exception must inform which field was invalid",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.teamColor field]")
         )
     }
@@ -380,7 +381,7 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "Given that this DTO has an invalid Nationality, then the custom exception must inform which field was invalid",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.nationality field]")
         )
     }
@@ -388,11 +389,11 @@ class DriversListModelMapperTest {
     @Test
     fun `given A Skippable Model Mapper And A Single Incomplete Dto, When Transforming Dto Into Model, Then A Model With Empty List Will Be Returned`() {
         // Given
-        modelMapper = DriversListModelMapper(skipElementIfFailedToParseDriver = true, appLoggerMock)
+        val skipElementIfFailedToParseDriver = true
         val incompleteSingleDto = DriversListDtoHelper.generateMissingNationalitySingleElement()
 
         // When
-        val modelResult = modelMapper.transform(incompleteSingleDto)
+        val modelResult = modelMapper.transform(incompleteSingleDto, skipElementIfFailedToParseDriver)
 
         // Then
         assertThat(
@@ -406,19 +407,19 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "DRIVERS_LIST must be size 1",
-            (modelResult as Result.Success).model.drivers.size,
+            modelResult.model.drivers.size,
             `is`(0)
         )
     }
 
     @Test
-    fun `given A Skippable Model Mapper And A Single Incomplete Dto, When Transforming Dto Into Model, Then A Mapper Must Log This Failure With AppLogger`() {
+    fun `given A Skippable Model Mapper And A Single Incomplete Dto, When Transforming Dto Into Model, Then Mapper Must Log This Failure With AppLogger`() {
         // Given
-        modelMapper = DriversListModelMapper(skipElementIfFailedToParseDriver = true, appLoggerMock)
+        val skipElementIfFailedToParseDriver = true
         val incompleteSingleDto = DriversListDtoHelper.generateMissingNationalitySingleElement()
 
         // When
-        modelMapper.transform(incompleteSingleDto)
+        modelMapper.transform(incompleteSingleDto, skipElementIfFailedToParseDriver)
 
         // Then
         verify {
@@ -432,11 +433,11 @@ class DriversListModelMapperTest {
     @Test
     fun `given A Skippable Model Mapper And A Two Complete With One Incomplete Dto, When Transforming Dto Into Model, Then A Model With Two List Elements Will Be Returned`() {
         // Given
-        modelMapper = DriversListModelMapper(skipElementIfFailedToParseDriver = true, appLoggerMock)
+        val skipElementIfFailedToParseDriver = true
         val twoCompleteOneMissingFamilyNameElements = DriversListDtoHelper.generateTwoCompleteOneMissingFamilyNameElements()
 
         // When
-        val modelResult = modelMapper.transform(twoCompleteOneMissingFamilyNameElements)
+        val modelResult = modelMapper.transform(twoCompleteOneMissingFamilyNameElements, skipElementIfFailedToParseDriver)
 
         // Then
         assertThat(
@@ -450,19 +451,19 @@ class DriversListModelMapperTest {
         )
         assertThat(
             "ModelMapper could parse 2 out of the 3 DTO entries",
-            (modelResult as Result.Success).model.drivers.size,
+            modelResult.model.drivers.size,
             `is`(2)
         )
     }
 
     @Test
-    fun `given A Skippable Model Mapper And A Two Complete With One Incomplete Dto, When Transforming Dto Into Model, Then A Mapper Must Log The Incomplete Elements With AppLogger`() {
+    fun `given A Skippable Model Mapper And A Two Complete With One Incomplete Dto, When Transforming Dto Into Model, Then Mapper Must Log The Incomplete Elements With AppLogger`() {
         // Given
-        modelMapper = DriversListModelMapper(skipElementIfFailedToParseDriver = true, appLoggerMock)
+        val skipElementIfFailedToParseDriver = true
         val twoCompleteOneMissingFamilyNameElements = DriversListDtoHelper.generateTwoCompleteOneMissingFamilyNameElements()
 
         // When
-        modelMapper.transform(twoCompleteOneMissingFamilyNameElements)
+        modelMapper.transform(twoCompleteOneMissingFamilyNameElements, skipElementIfFailedToParseDriver)
 
         // Then
         verify {
@@ -471,5 +472,30 @@ class DriversListModelMapperTest {
                 message = "Skipping this element from the list, as it is missing a mandatory field for DriverModel - [DriverDto(driverId=alonso, permanentNumber=14, code=ALO, url=http://en.wikipedia.org/wiki/Fernando_Alonso, imageUrl=https://raw.githubusercontent.com/dofukuhara/2022-F1-Drivers-LineUp/main/api/img/alpine/alonso.jpeg, givenName=Fernando, familyName=null, dateOfBirth=1981-07-29, team=Alpine, teamColor=#2293D1, nationality=Spanish)]"
             )
         }
+    }
+
+    @Test
+    fun `given An Dto With A Null List Of Drivers, When Transforming Dto Into Model Skippable, Then Respond With Result Failure And NoDataFoundException Exception`() {
+        // Given
+        val skipElementIfFailedToParseDriver = false
+        val emptyDto = DriversListDto("2022", null, null)
+
+        // When
+        val modelResult = modelMapper.transform(emptyDto, skipElementIfFailedToParseDriver)
+
+        // Then
+        assertThat(
+            "Given a DTO with null list of drivers, then ModelMapper must return a Failure Result",
+            modelResult is Result.Failure
+        )
+        assertThat(
+            "Given a DTO with null list of drivers, then ModelMapper must emit a proper exception",
+            (modelResult as Result.Failure).throwable is NoDataFoundException
+        )
+        assertThat(
+            "Given a DTO with null list of drivers, then the custom exception must inform that driver races list is empty",
+            modelResult.throwable.message,
+            `is`("The drivers list is empty")
+        )
     }
 }

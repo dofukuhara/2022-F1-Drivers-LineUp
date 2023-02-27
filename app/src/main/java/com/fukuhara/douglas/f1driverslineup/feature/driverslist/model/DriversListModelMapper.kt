@@ -6,18 +6,16 @@ import com.fukuhara.douglas.lib.common.arch.Result
 import com.fukuhara.douglas.lib.common.arch.failure
 import com.fukuhara.douglas.lib.common.arch.success
 import com.fukuhara.douglas.lib.common.exception.ModelParserException
+import com.fukuhara.douglas.lib.common.exception.NoDataFoundException
 import com.fukuhara.douglas.lib.common.logger.AppLogger
 
-/*
+class DriversListModelMapper(private val appLogger: AppLogger) : DriverListMapperType {
+    /*
     skipElementIfFailedToParseDriver:
         TRUE: ModelMapper will perform a 1:1 transformation. In case that at least one mandatory field required by DriverModel is missing from DTO, then we will invalidate the entire obj.
         FALSE : ModelMapper will perform (N)Dto : (M)Model, where N>=M. In case that at least one mandatory field required by DriverModel is missing from DTO, then this element will be skipped from the mapping
  */
-class DriversListModelMapper(
-    private val skipElementIfFailedToParseDriver: Boolean = false,
-    private val appLogger: AppLogger
-) : DriverListMapperType {
-    override fun transform(dtoData: DriversListDto): Result<Throwable, DriversListModel> {
+    override fun transform(dtoData: DriversListDto, skipElementIfFailedToParseDriver: Boolean): Result<Throwable, DriversListModel> {
         try {
             val season = dtoData.season ?: return generateMissingFieldException("Missing season field")
             val drivers = dtoData.drivers?.mapNotNull { driverDto ->
@@ -37,7 +35,7 @@ class DriversListModelMapper(
                 } else {
                     DriverModel(driverId, permanentNumber, imageUrl, givenName, familyName, dateOfBirth, team, teamColor, nationality)
                 }
-            } ?: return generateMissingFieldException("Missing Drivers field")
+            } ?: return NoDataFoundException("The drivers list is empty").failure()
 
             val resultModelList = DriversListModel(season, drivers)
 

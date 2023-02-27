@@ -23,7 +23,7 @@ class DriversListRemoteRepositoryTest {
 
     private val apiMock: DriversListServiceApi = mockk(relaxed = true)
     private val appLoggerMock: AppLogger = mockk(relaxed = true)
-    private val modelMapper: DriverListMapperType = DriversListModelMapper(false, appLoggerMock)
+    private val modelMapper: DriverListMapperType = DriversListModelMapper(appLoggerMock)
 
     @Before
     fun setUp() {
@@ -33,10 +33,11 @@ class DriversListRemoteRepositoryTest {
     @Test
     fun `given An Exception From Api, When Fetching DriversList From Repository, Then Respond With Failure Result`() = runTest {
         // Given
+        val skipElementIfFailedToParseDriver = false
         coEvery { apiMock.getDriversList() } throws NoDataFoundException("Failed to fetch Drivers List from mock API")
 
         // When
-        val modelResult = repository.getDriversList()
+        val modelResult = repository.getDriversList(skipElementIfFailedToParseDriver)
         advanceUntilIdle()
 
         assertThat(
@@ -49,7 +50,7 @@ class DriversListRemoteRepositoryTest {
         )
         assertThat(
             "Given an exception from API, then Repository must generate a custom exception with details on the problem",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Failed to retrieve data from network")
         )
     }
@@ -57,24 +58,25 @@ class DriversListRemoteRepositoryTest {
     @Test
     fun `given An Api Response With A Single But Incomplete Dto, When Fetching DriversList From Repository, Then Respond With Failure Result`() = runTest {
         // Given
+        val skipElementIfFailedToParseDriver = false
         val dtoWithIncompleteDataResponse = DriversListDtoHelper.generateMissingGivenNameSingleElement()
         coEvery { apiMock.getDriversList() } returns dtoWithIncompleteDataResponse
 
         // When
-        val modelResult = repository.getDriversList()
+        val modelResult = repository.getDriversList(skipElementIfFailedToParseDriver)
         advanceUntilIdle()
 
         assertThat(
-            "Given an exception from API, then wrap it and respond as Result.Failure",
+            "Given an exception from Mapper, then wrap it and respond as Result.Failure",
             modelResult is Result.Failure
         )
         assertThat(
-            "Given an exception from API, then Repository must generate a ModelParserException custom exception",
+            "Given an exception from Mapper, then Repository must generate a ModelParserException custom exception",
             (modelResult as Result.Failure).throwable is ModelParserException
         )
         assertThat(
-            "Given an exception from API, then Repository must generate a custom exception with details on the problem",
-            (modelResult as Result.Failure).throwable.message,
+            "Given an exception from Mapper, then Repository must generate a custom exception with details on the problem",
+            modelResult.throwable.message,
             `is`("Failed to Parse DriversListDto to DriversListModel [Missing Drivers.givenName field]")
         )
     }
@@ -82,13 +84,12 @@ class DriversListRemoteRepositoryTest {
     @Test
     fun `given A Skippable ModelMapper And An Incomplete Dto, When Fetching DriversList From Repository, Then Respond With Failure Result`() = runTest {
         // Given
-        val skippableModelMapper: DriverListMapperType = DriversListModelMapper(true, appLoggerMock)
+        val skipElementIfFailedToParseDriver = true
         val dtoWithIncompleteDataResponse = DriversListDtoHelper.generateMissingGivenNameSingleElement()
-        repository = DriversListRemoteRepository(apiMock, skippableModelMapper)
         coEvery { apiMock.getDriversList() } returns dtoWithIncompleteDataResponse
 
         // When
-        val modelResult = repository.getDriversList()
+        val modelResult = repository.getDriversList(skipElementIfFailedToParseDriver)
         advanceUntilIdle()
 
         assertThat(
@@ -101,7 +102,7 @@ class DriversListRemoteRepositoryTest {
         )
         assertThat(
             "Given an DriversListModel with empty DriverList from ModelMapper, then Repository must generate a custom exception with details on the problem",
-            (modelResult as Result.Failure).throwable.message,
+            modelResult.throwable.message,
             `is`("Drivers List returned was empty")
         )
     }
@@ -109,11 +110,12 @@ class DriversListRemoteRepositoryTest {
     @Test
     fun `given A Complete Three Elements In Api Response, When Fetching DriversList From Repository, Then Return A DriversListModel With Three Elements`() = runTest {
         // Given
+        val skipElementIfFailedToParseDriver = false
         val completeThreeElementsInDto = DriversListDtoHelper.generateCompleteThreeElements()
         coEvery { apiMock.getDriversList() } returns completeThreeElementsInDto
 
         // When
-        val modelResult = repository.getDriversList()
+        val modelResult = repository.getDriversList(skipElementIfFailedToParseDriver)
         advanceUntilIdle()
 
         assertThat(

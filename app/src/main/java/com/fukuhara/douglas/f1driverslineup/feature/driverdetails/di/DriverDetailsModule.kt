@@ -14,10 +14,7 @@ val driverDetailsModule = module {
     factory<DriverDetailsRepository> {
         DriverDetailsRemoteRepository(
             api = getDriverDetailsServiceApi(client = get()),
-            mapper = DriverDetailsModelMapper(
-                skipElementIfFailedToParseDriver = false,
-                appLogger = get()
-            )
+            mapper = DriverDetailsModelMapper(appLogger = get())
         )
     }
 

@@ -9,7 +9,7 @@ import com.fukuhara.douglas.lib.common.exception.NoDataFoundException
 import com.fukuhara.douglas.lib.common.model.ModelMapper
 
 interface DriversListRepository {
-    suspend fun getDriversList(): Result<Throwable, DriversListModel>
+    suspend fun getDriversList(skipElementIfFailedToParseDriver: Boolean): Result<Throwable, DriversListModel>
 }
 
 internal class DriversListRemoteRepository(
@@ -17,10 +17,10 @@ internal class DriversListRemoteRepository(
     private val modelMapper: DriverListMapperType
 ) : DriversListRepository {
 
-    override suspend fun getDriversList(): Result<Throwable, DriversListModel> {
+    override suspend fun getDriversList(skipElementIfFailedToParseDriver: Boolean): Result<Throwable, DriversListModel> {
         try {
             val responseDto = api.getDriversList()
-            val responseModel = modelMapper.transform(responseDto)
+            val responseModel = modelMapper.transform(responseDto, skipElementIfFailedToParseDriver)
 
             responseModel.fold(
                 failure = { throwable -> return throwable.failure() },

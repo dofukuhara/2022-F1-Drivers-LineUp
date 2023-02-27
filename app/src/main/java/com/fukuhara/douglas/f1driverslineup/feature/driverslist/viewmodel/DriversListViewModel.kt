@@ -24,7 +24,7 @@ class DriversListViewModel(
         if (_driversListModel.value == null) {
             viewModelScope.launch {
                 val repositoryResponse = withContext(backgroundDispatcher) {
-                    repository.getDriversList()
+                    repository.getDriversList(skipElementIfFailedToParseDriver = false)
                 }
 
                 repositoryResponse.fold(

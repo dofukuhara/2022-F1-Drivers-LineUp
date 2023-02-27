@@ -33,7 +33,7 @@ class DriverDetailsViewModel(
         viewModelScope.launch {
             _driverModel.value?.driverId?.let { driverId ->
                 val modelResponse = withContext(backgroundDispatcher) {
-                    repository.getDriverDetails(driverId)
+                    repository.getDriverDetails(driverId, skipElementIfFailedToParseDriver = false)
                 }
 
                 modelResponse.fold(
